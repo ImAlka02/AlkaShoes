@@ -8,13 +8,17 @@ html, body {
 }
 
 /*Inicio de sesion*/
+main {
+    height: 100%;
+    display: flex;
+}
+
 
 .inicio-sesion {
     background-color: black;
     width: 40%;
     height: 65%;
     margin: auto;
-    margin-top: 2%;
     display: flex;
     flex-direction: column;
     border-radius: 10px;
