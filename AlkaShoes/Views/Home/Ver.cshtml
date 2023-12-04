@@ -1,0 +1,93 @@
+﻿@model AlkaShoes.Models.ViewModels.VerProductoViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="container-producto">
+    <img src="~/img_tenis/@(Model.Id).png?f=@(Model.FechaModificacion)" alt="@Model.Nombre">
+    <div class="container-info">
+        <h3>@Model.Marca - @Model.Sku</h3>
+        <h1>@Model.Nombre</h1>
+        <h2>@Model.Precio.ToString("c")</h2>
+
+        <form method="post" action="~/Home/Ver">
+            <input type="hidden" asp-for="Id"/>
+            <label>Tallas</label>
+            <div class="tallas">
+                @foreach (var t in Model.Tallas)
+                {
+                    <label for="talla@(t.Id)" style="background: white;">
+                        @t.Talla
+                    </label>
+                    <input type="radio" id="talla@(t.Id)" value="@t.Id" asp-for="IdTalla" />
+                }
+                
+            </div>
+            <label>Cantidad</label>
+            <div class="contador">
+                <button type="button" class="menosButton">-</button>
+                <input type="number" asp-for="Cantidad" min="1" max="10" />
+                <button type="button" class="masButton">+</button>
+            </div>
+            <div class="botonesClass">
+                <input type="submit" class="comprarButton" value="Comprar" />
+                <input type="button" class="agregarButton" value="Agregar al carrito" />
+               
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="descripcion">
+        <label>Descripcion</label>
+        <p>
+            @Model.Descripcion
+        </p>
+    </div>
+</section>
+
+<script>
+    ////////////////////Contador/////////////////////////////////
+    let contador = document.querySelector(".contador");
+    let buttons = contador.querySelectorAll("BUTTON");
+    let input = contador.querySelector("input");
+    input.value = 0;
+    let n = input.value;
+    buttons[1].addEventListener("click", function () {
+        n = input.value;
+        n++;
+        input.value = n;
+    });
+    buttons[0].addEventListener("click", function () {
+        n = input.value;
+        n--;
+        input.value = n;
+    });
+    ///////////////BOTON PRESIONADO//////////////////////////
+    let tallas = document.querySelector(".tallas");
+    var talla;
+    tallas.addEventListener("click", function (e) {
+        if (e.target.tagName === "LABEL" && e.target.style.background == "white") {
+            cambioColor(e.target);
+            if (talla) {
+                cambioColor(talla);
+            }
+            talla = e.target
+            stopPropagation();
+        }
+
+        function cambioColor(label) {
+            if (label.style.background == "white") {
+                label.style.background = "black";
+                label.style.color = "white";
+            } else {
+                label.style.background = "white";
+                label.style.color = "black";
+            }
+        }
+
+    });
+</script>
+

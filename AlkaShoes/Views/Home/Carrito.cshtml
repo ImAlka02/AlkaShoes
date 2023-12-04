@@ -1,0 +1,37 @@
+﻿@model AlkaShoes.Models.ViewModels.CarritoViewModel
+@{
+    ViewData["Title"] = "Carrito";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="my-order">
+    <div class="my-order-container">
+        <h4>Carrito de compra</h4>
+
+        <div class="shopping-cart">
+            <figure>
+                <img src="https://static.nike.com/a/images/t_PDP_864_v1/f_auto,b_rgb:f5f5f5/30707017-6950-4d9e-bcfb-e5fe01336a9d/calzado-air-more-uptempo-96-bvgl1S.png" alt="e36">
+            </figure>
+            <div>
+                <a href="product.html">Nike Air More Uptempo '96</a>
+                <p>Talla: US 16</p>
+            </div>
+            <p>$4,199.00</p>
+            <section>
+                <input type="submit" value="Eliminar" />
+            </section>
+        </div>
+
+
+    </div>
+
+    <div class="my-order-resume">
+        <h4>Resumen</h4>
+
+        <div class="resume">
+            <p>Total de productos <span>3</span></p>
+            <p>Total de compra <span>$9,297.00</span></p>
+        </div>
+
+    </div>
+</div>
