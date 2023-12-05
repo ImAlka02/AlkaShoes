@@ -18,7 +18,7 @@ namespace AlkaShoes.Models.ViewModels
         public int IdTalla { get; set; }
         public int Cantidad { get; set; }
 
-        public IEnumerable<TallasModel> Tallas { get; set; }
+        public IEnumerable<TallasModel>? Tallas { get; set; }
 
     }
 

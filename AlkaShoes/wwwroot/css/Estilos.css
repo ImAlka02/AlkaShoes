@@ -416,7 +416,7 @@ section input[type=submit] {
 /*/////////////////Carrito////////////////////*/
 
 .my-order {
-    width: 40%;
+    width: 60%;
     margin: auto;
     margin-top: 20px;
 }
@@ -436,7 +436,7 @@ section input[type=submit] {
         clear: both;
     }
 
-    .my-order-container h4 {
+    .my-order-container h2 {
         padding: 0;
         margin: 0;
         margin-top: 10px;
@@ -451,20 +451,17 @@ section input[type=submit] {
     grid-template-areas: "imagen nombreproducto precio"
         "opc opc opc";
     border-bottom: 1px solid #e4e4e4;
-    padding-bottom: 30px;
+    padding-bottom: 10px;
+    align-items:center;
 }
 
-    .shopping-cart figure img {
-        width: 70px;
-        height: 70px;
-        border-radius: 20px;
-        object-fit: cover;
+    .shopping-cart img {
+        width: auto;
+        height: 100px;
+        justify-self: center;
         grid-area: imagen;
     }
 
-    .shopping-cart figure {
-        margin: 0;
-    }
 
     .shopping-cart div a {
         color: black;
@@ -482,13 +479,12 @@ section input[type=submit] {
         grid-area: precio;
     }
 
-    .shopping-cart section {
-        margin-top: 10px;
+    .shopping-cart  form {
         grid-area: opc;
         text-align: center;
     }
 
-        .shopping-cart section input[type="submit"] {
+        .shopping-cart form  section input[type="submit"] {
             text-decoration: none;
             font-size: medium;
             color: goldenrod;

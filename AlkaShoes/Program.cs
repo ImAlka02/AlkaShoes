@@ -10,7 +10,7 @@ builder.Services.AddDbContext<AlkashoesContext>(x=>x.UseMySql("user=root;passwor
 
 builder.Services.AddTransient<Repo<Marca>>();
 builder.Services.AddTransient<Repo<User>>();
-builder.Services.AddTransient<Repo<Carrito>>();
+builder.Services.AddTransient<RepoCarrito>();
 builder.Services.AddTransient<RepoProductos>();
 builder.Services.AddTransient<RepoTallas>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>

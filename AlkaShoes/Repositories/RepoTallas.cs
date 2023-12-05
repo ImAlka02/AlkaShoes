@@ -11,6 +11,11 @@ namespace AlkaShoes.Repositories
             
         }
 
+        public Tallasproducto? GetTallaByIdProducto (int id)
+        {
+            return Context.Tallasproducto.Include(x => x.IdTallaNavigation).
+                First(x=> x.IdProducto == id);
+        }
         public IEnumerable<Tallasproducto> GetAllXTenis(string Nombre)
         {
             return Context.Tallasproducto.Include(x=>x.IdTallaNavigation)

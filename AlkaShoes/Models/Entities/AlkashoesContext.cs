@@ -28,6 +28,7 @@ public partial class AlkashoesContext : DbContext
     public virtual DbSet<User> User { get; set; }
 
 
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
@@ -44,6 +45,8 @@ public partial class AlkashoesContext : DbContext
 
             entity.HasIndex(e => e.IdUser, "IdUser");
 
+            entity.HasIndex(e => e.IdTalla, "carrito_Talla_idx");
+
             entity.Property(e => e.Fecha)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("datetime");
@@ -53,6 +56,11 @@ public partial class AlkashoesContext : DbContext
                 .HasForeignKey(d => d.IdProducto)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("carrito_ibfk_2");
+
+            entity.HasOne(d => d.IdTallaNavigation).WithMany(p => p.Carrito)
+                .HasForeignKey(d => d.IdTalla)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("carrito_Talla");
 
             entity.HasOne(d => d.IdUserNavigation).WithMany(p => p.Carrito)
                 .HasForeignKey(d => d.IdUser)
