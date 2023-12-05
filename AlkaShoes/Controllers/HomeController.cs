@@ -82,7 +82,24 @@ namespace AlkaShoes.Controllers
         [HttpPost]
         public IActionResult Ver(VerProductoViewModel vm)
         {
-            var prop = repoProducto.Get(vm.Id);
+            var prop = repoProducto.GetById(vm.Id);
+            var cantidadTalla = repoTallas.Get(vm.IdTalla);
+
+            if (vm.IdTalla == 0)
+            {
+                ModelState.AddModelError(string.Empty, "Eliga una talla para continuar.");
+            }
+
+            if (vm.Cantidad == 0 )
+            {
+                ModelState.AddModelError(string.Empty, "La cantidad no puede ser menor que 0.");
+            }
+
+            if(vm.Cantidad >= cantidadTalla?.Cantidad)
+            {
+                ModelState.AddModelError(string.Empty, "No tenemos la cantidad solicitada, elija otra por favor.");
+            }
+
             var Carrito = new Carrito()
             {
                 IdProducto = vm.Id,
@@ -92,24 +109,28 @@ namespace AlkaShoes.Controllers
                 PrecioCadaUno = prop.Precio
             };
 
-            repoCarrito.Insert(Carrito);
-
-             vm = new VerProductoViewModel()
+            if (ModelState.IsValid)
             {
-                Id = prop.Id,
-                Sku = prop.Sku,
-                Nombre = prop.Nombre,
-                Descripcion = prop.Descripcion,
-                FechaModificacion = new FileInfo($"wwwroot/img_tenis/{prop.Id}.jpg").LastWriteTime.ToString("ddMMyyyyHHmm"),
-                Marca = prop.IdMarcaNavigation.NombreMarca,
-                Precio = prop.Precio,
-                Tallas = repoTallas.GetAllXTenis(prop.Nombre).Select(x => new TallasModel()
+                repoCarrito.Insert(Carrito);
+                cantidadTalla.Cantidad = cantidadTalla.Cantidad - vm.Cantidad;
+                repoTallas.Update(cantidadTalla);
+
+            }
+            
+            vm.Id = prop.Id;
+            vm.Sku = prop.Sku;
+            vm.Nombre = prop.Nombre;
+            vm.Descripcion = prop.Descripcion;
+            vm.FechaModificacion = new FileInfo($"wwwroot/img_tenis/{prop.Id}.jpg").LastWriteTime.ToString("ddMMyyyyHHmm");
+            vm.Marca = prop.IdMarcaNavigation.NombreMarca;
+            vm.Precio = prop.Precio;
+            vm.Tallas = repoTallas.GetAllXTenis(prop.Nombre).Select(x => new TallasModel()
                 {
                     Id = x.Id,
                     Talla = x.IdTallaNavigation.Talla1,
                     Cantidad = x.Cantidad
-                })
-            };
+            });
+            
             return View(vm);
         }
         public IActionResult Carrito()

@@ -9,7 +9,11 @@ namespace AlkaShoes.Repositories
         {
             
         }
-        public Producto GetByNombre (string Nombre)
+        public Producto? GetById(int id)
+        {
+            return Context.Producto.Include(x=> x.IdMarcaNavigation).FirstOrDefault(x=> x.Id == id);
+        }
+        public Producto? GetByNombre (string Nombre)
         {
             return Context.Producto.Include(x => x.IdMarcaNavigation).FirstOrDefault(x => x.Nombre == Nombre);
         }

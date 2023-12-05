@@ -12,7 +12,7 @@
         <h2>@Model.Precio.ToString("c")</h2>
 
         <form method="post" action="~/Home/Ver">
-            <input type="hidden" asp-for="Id"/>
+            <input type="hidden" name="Id" value="@Model.Id"/>
             <label>Tallas</label>
             <div class="tallas">
                 @foreach (var t in Model.Tallas)
@@ -20,7 +20,7 @@
                     <label for="talla@(t.Id)" style="background: white;">
                         @t.Talla
                     </label>
-                    <input type="radio" id="talla@(t.Id)" value="@t.Id" asp-for="IdTalla" />
+                    <input type="radio" id="talla@(t.Id)" hidden value="@t.Id" asp-for="IdTalla" />
                 }
                 
             </div>
