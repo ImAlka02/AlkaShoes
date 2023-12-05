@@ -17,7 +17,11 @@ public partial class Carrito
 
     public DateTime? Fecha { get; set; }
 
+    public int IdTalla { get; set; }
+
     public virtual Producto IdProductoNavigation { get; set; } = null!;
+
+    public virtual Talla IdTallaNavigation { get; set; } = null!;
 
     public virtual User IdUserNavigation { get; set; } = null!;
 }

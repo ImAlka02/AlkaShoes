@@ -4,7 +4,8 @@ namespace AlkaShoes.Models.ViewModels
 {
     public class CarritoViewModel
     {
-        public IEnumerable<Carrito> ListaCompra {  get; set; } 
+        public int IdSeleccion { get; set; } = 0;
+        public IEnumerable<Carrito>? ListaCompra {  get; set; } 
 
     }
 }
