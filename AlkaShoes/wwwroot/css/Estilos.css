@@ -527,7 +527,199 @@ section input[type=submit] {
     margin-right: 10PX;
 }
 
+/*///////////////////////////Lista de productos y marcas ///////////////////////////////////////*/
 
+.productos {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    .productos div {
+        text-align: right;
+        width: 80%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        padding: 0;
+    }
+
+.agregar {
+    padding: 0 0 5px 0;
+    margin: 0 0 10px 0;
+    text-align: center;
+    text-decoration: none;
+    background-color: black;
+    border-radius: 15px;
+    color: white;
+    width: 15%;
+}
+
+
+.productos ul {
+    width: 80%;
+    position: initial;
+    padding: 0;
+}
+
+.seleccionar-marca {
+    width: 100%;
+}
+
+
+    .seleccionar-marca select {
+        width: 100%;
+        float: right;
+        font-size: large;
+        padding: 0;
+        border-radius: 15px;
+        font-family: 'Oswald', sans-serif;
+        border: 0;
+        background-color: lightgoldenrodyellow;
+    }
+
+        .seleccionar-marca select option {
+            width: 100%;
+        }
+
+
+.productos ul li {
+    list-style: none;
+    font-size: x-large;
+    padding: 2px;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+    .productos ul li:hover {
+        background-color: lightgray;
+        border-radius: 5px;
+    }
+
+    .productos ul li span {
+        color: grey;
+    }
+
+.productos a {
+    cursor: pointer;
+    float: right;
+    margin-right: 5px;
+}
+
+
+
+/*Aqui termina lista de productos*/
+/*//////////////////////Agregar y editar /////////////////////////////////////////*/
+.agregar-editar-section {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-agregar-editar {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+    .form-agregar-editar input[type="text"], .form-agregar-editar input[type="number"], .form-agregar-editar select {
+        border: 0;
+        border-bottom: 1px solid #b5b5b5;
+        font-size: medium;
+        padding: 5px;
+        margin-bottom: 15px;
+        font-family: 'Oswald', sans-serif;
+        word-wrap: break-word;
+    }
+
+    .form-agregar-editar textarea {
+        border: 0;
+        border-bottom: 1px solid #b5b5b5;
+        font-size: medium;
+        margin-bottom: 15px;
+        font-family: 'Oswald', sans-serif;
+    }
+
+#error, #advertencia {
+    color: red;
+    width: 100%;
+    text-align: center;
+}
+
+.form-agregar-editar #imagePreview {
+    width: 100px;
+    height: 100px;
+    border-radius: 15px;
+}
+
+.botones {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+    .botones input[type="submit"] {
+        margin: 0;
+        padding: 0;
+        border-radius: 15px;
+        font-size: medium;
+        color: white;
+        border: 0;
+        background-color: black;
+        font-family: 'Oswald', sans-serif;
+        margin-right: 10px;
+        width: 20%;
+        cursor: pointer;
+    }
+
+    .botones a {
+        width: 20%;
+    }
+
+        .botones a input[type="button"] {
+            margin: 0;
+            padding: 0;
+            border-radius: 15px;
+            font-size: medium;
+            color: white;
+            border: 0;
+            background-color: black;
+            font-family: 'Oswald', sans-serif;
+            margin-left: 10px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+/*//////////////////////Eliminar /////////////////////////////////////////*/
+.eliminar {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-eliminar {
+    text-align: center;
+    width: 50%;
+}
+
+    .form-eliminar p {
+        font-size: medium;
+    }
+
+        .form-eliminar p span {
+            color: gray;
+        }
+
+
+/*/////////////////////////// media ///////////////////////////////////////*/
 
 
     @media (max-width: 880px) {

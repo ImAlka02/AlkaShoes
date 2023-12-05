@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="~/css/Estilos.css" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Koulen" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/208814b38b.js" crossorigin="anonymous"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>AlkaShoes - You want it, we got it</title>
+</head>
+<body>
+	<header>
+		<a href="~/Home/Index" class="aHeader">
+		</a>
+	</header>
+	<nav class="nav">
+		<a class="menuButton"><i class="fa-solid fa-bars"></i></a>
+		<div class="menuCategorias">
+			<a href="~/Admin/Productos/Index">Productos</a>
+			<a href="~/Admin/Marcas/Index">Marcas</a>
+
+		</div>
+		<div>
+			<a href="#">
+				<i class="fa-solid fa-cart-shopping fa-lg"></i>
+			</a>
+			<a id="userBotton" class="userBotton">
+				<i class="fa-solid fa-user fa-lg"></i>
+			</a>
+		</div>
+
+	</nav>
+	<nav id="menu1" class="menu1">
+		<a class="singOut">
+			<i class="fa-solid fa-right-from-bracket">
+
+			</i>
+			Sing out
+		</a>
+	</nav>
+	<main>
+		@RenderBody()
+	</main>
+	<footer>
+		<div class="contacto">
+			<h4>Contactanos en:</h4>
+			<a href="https://instagram.com/alk.shoes?igshid=M2RkZGJiMzhjOQ==">
+				<i class="fa-brands fa-instagram"></i>
+				&#64; alka.shoes
+			</a>
+		</div>
+		<p>&copy; 2023 Copyright: AlkaShoes </p>
+	</footer>
+	<script>
+		//////////////////////////NAV/////////////////////////////
+		let userBotton = document.querySelector("#userBotton");
+		let menu1 = document.querySelector("#menu1");
+
+		userBotton.addEventListener("click", function (e) {
+			if (e.target.tagName === "A" && e.target.className === "userBotton" || e.target.tagName === "I" && e.target.parentElement.className === "userBotton") {
+				userBotton.append(menu1);
+				e.stopPropagation();
+			}
+		});
+
+		document.addEventListener("click", function (e) {
+			document.body.append(menu1);
+		});
+		////////////////////Menu barra/////////////////////////////
+		let menuButton = document.querySelector(".menuButton");
+		let divCategorias = document.querySelector(".menuCategorias");
+		let nav = document.querySelector(".nav");
+
+
+
+		menuButton.addEventListener("click", function (e) {
+			if (e.target.tagName === "A" && e.target.className === "menuButton" || e.target.tagName === "I" && e.target.parentElement.className === "menuButton") {
+				menuButton.append(divCategorias);
+				e.stopPropagation();
+			}
+
+			document.addEventListener("click", function (e) {
+				nav.append(divCategorias);
+			});
+		});
+
+	</script>
+</body>
+</html>
