@@ -31,14 +31,15 @@
                 <button type="button" class="masButton">+</button>
             </div>
             <div class="botonesClass">
-                <input type="submit" class="comprarButton" value="Comprar" />
-                <input type="button" class="agregarButton" value="Agregar al carrito" />
+                <p id="error">@Html.ValidationSummary(true)</p>
+                <input type="submit" class="comprarButton" value="Agregar al carrito" />
                
             </div>
 
         </form>
 
     </div>
+
 
     <div class="descripcion">
         <label>Descripcion</label>

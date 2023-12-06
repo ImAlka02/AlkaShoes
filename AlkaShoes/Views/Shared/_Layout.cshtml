@@ -21,7 +21,7 @@
 </head>
 <body>
     <header>
-        <a href="~/Home/Index" class="aHeader">
+        <a href="~/Home/Inicio" class="aHeader">
         </a>
     </header>
     <nav class="nav">
@@ -29,7 +29,7 @@
       <div class="menuCategorias">
           @foreach (var m in repo.GetAll().OrderBy(x=>x.NombreMarca).Select(x=> x.NombreMarca))
             {
-                <a href="~/Home/Index/@m">@m</a>
+                <a href="~/Home/Inicio/@m">@m</a>
             }
       </div>
       <div>
@@ -43,7 +43,7 @@
 
     </nav>
     <nav id="menu1" class="menu1">
-      <a class="singOut">
+        <a href="~/Home/Logout" class="singOut">
         <i class="fa-solid fa-right-from-bracket">
 
         </i>
