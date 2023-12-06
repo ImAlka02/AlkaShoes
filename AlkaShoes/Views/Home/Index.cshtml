@@ -1,88 +1,41 @@
-﻿@model AlkaShoes.Models.ViewModels.ProductoViewModel
+﻿@model AlkaShoes.Models.ViewModels.LoginViewModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
 
-<div class="carrusel">
-    <div>
-        <img src="~/carruselFotos/Foto1.jpg" />
-        <img src="~/carruselFotos/Foto3.jpg" />
-        <img src="~/carruselFotos/Foto2.jpg" />
-        <img src="~/carruselFotos/Foto4.jpg" />
-        <img src="~/carruselFotos/Foto5.jpg" />
-    </div>
+<!DOCTYPE html>
 
-    <a href="javascript:" id="anterior">&lt;</a>
-    <a href="javascript:" id="siguiente">&gt;</a>
-</div>
-<div class="container">
-    <h1>All Shoes</h1>
-    <div class="container-items">
-        @foreach (var p in Model.Productos)
-        {
-            <a href="~/Home/Ver/@p.Nombre.Replace(" ", "-")" class="product">
-                <div class="imgContainer">
-                    <img src="~/img_tenis/@(p.Id).png?f=@(p.FechaModificacion)">
-                </div>
-                <h2>@p.Nombre</h2>
-                <h3>@p.Precio.ToString("c")</h3>
-            </a>
-        }
-        
-    </div>
-</div>
-
-<script>
-    let imgs = document.querySelector(".carrusel div");
-
-    let clon1 = imgs.firstElementChild.cloneNode(true);
-    let clon2 = imgs.lastElementChild.cloneNode(true);
-    imgs.append(clon1);
-    imgs.insertBefore(clon2, imgs.firstElementChild);
-
-    let totalImg = imgs.children.length;
-    let actual = 2;
-    imgs.style.transform = `translateX(${(actual - 1) * -100}%)`;
-
-    let timer = setInterval(function () {
-        document.getElementById("siguiente").click();
-    }, 2000)
-
-    imgs.addEventListener("transitionend", function (e) {
-        if (actual == imgs.children.length) {
-            actual = 2;
-            imgs.style.transition = "none";
-            imgs.style.transform = `translateX(${(actual - 1) * -100}%)`;
-        }
-
-        if (actual == 1) {
-            actual = imgs.children.length - 1;
-            imgs.style.transition = "none";
-            imgs.style.transform = `translateX(${(actual - 1) * -100}%)`;
-        }
-
-        timer = setInterval(function () {
-            document.getElementById("siguiente").click();
-        }, 2000)
-    });
-
-    document.getElementById("siguiente").addEventListener("click", function () {
-        clearInterval(timer);
-        imgs.style.transition = "all 2s"
-        if (actual < totalImg) {
-            actual++;
-            imgs.style.transform = `translateX(${(actual - 1) * -100}%)`;
-        }
-    });
-    document.getElementById("anterior").addEventListener("click", function () {
-        clearInterval(timer);
-        imgs.style.transition = "all 2s"
-        if (actual > 1) {
-            actual--;
-            imgs.style.transform = `translateX(${(actual - 1) * -100}%)`;
-        }
-    });
-</script>
-
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/LoginRegistro.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Koulen" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/208814b38b.js" crossorigin="anonymous"></script>
+    <title>AlkaShoes</title>
+</head>
+<body>
+    <main>
+        <section class="inicio-sesion">
+            <div class="alka-shoes-lema">
+                <img class="alka-logo-login" src="~/logo/LogoAS.png" />
+                <h3>IF YOU WANT IT, WE GOT IT</h3>
+            </div>
+            <div class="login">
+                <h1>¡Hola!</h1>
+                <form class="form-inicio-sesion" method="post" action="~/Home/Index">
+                    <input type="text" placeholder="Correo electrónico" asp-for="Correo"/>
+                    <input type="password" placeholder="Contraseña" asp-for="Contraseña"/>
+                    <input type="submit" value="Iniciar sesión"/>
+                </form>
+                <a href="~/Home/Registro">Crear cuenta</a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

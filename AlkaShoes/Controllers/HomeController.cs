@@ -24,7 +24,7 @@ namespace AlkaShoes.Controllers
             this.userRepo = userRepo;
             this.repoCarrito = repoCarrito;
         }
-        public IActionResult Index(string Id)
+        public IActionResult Inicio(string Id)
         {
             if (Id != null) 
             {
@@ -85,7 +85,7 @@ namespace AlkaShoes.Controllers
             var prop = repoProducto.GetById(vm.Id);
             var cantidadTalla = repoTallas.GetTallaByIdProducto(vm.Id);
 
-            
+            ModelState.Clear();
 
             if (vm.IdTalla == 0)
             {
@@ -112,7 +112,7 @@ namespace AlkaShoes.Controllers
                 PrecioCadaUno = prop.Precio
             };
 
-            //ModelState.Clear();
+           
 
             if (ModelState.IsValid)
             {
@@ -183,12 +183,12 @@ namespace AlkaShoes.Controllers
             
             return View(vm);
         }
-        public IActionResult Login()
+        public IActionResult Index()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult Login(LoginViewModel vm)
+        public IActionResult Index(LoginViewModel vm)
         {
             if (string.IsNullOrWhiteSpace(vm.Correo))
             {
@@ -215,7 +215,7 @@ namespace AlkaShoes.Controllers
                     claims.Add(new Claim("Id", user.Id.ToString()));
                     claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
                     claims.Add(new Claim(ClaimTypes.Name, user.Nombre));
-                    claims.Add(new Claim(ClaimTypes.Role, user.Rol == 1 ? "Admin" : "Supervisor"));
+                    claims.Add(new Claim(ClaimTypes.Role, user.Rol == 1 ? "Admin" : "Cliente"));
                     ClaimsIdentity identity = new(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
                     HttpContext.SignInAsync(new ClaimsPrincipal(identity), new AuthenticationProperties
@@ -226,7 +226,7 @@ namespace AlkaShoes.Controllers
                     {
                         return RedirectToAction("Index", "Home", new { area = "Admin" });
                     }
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Inicio", "Home");
                 }
             }
             return View(vm);
@@ -234,7 +234,7 @@ namespace AlkaShoes.Controllers
         public IActionResult Logout()
         {
             HttpContext.SignOutAsync();
-            return RedirectToAction("Login", "Home");
+            return RedirectToAction("Index", "Home");
         }
     }
 }
