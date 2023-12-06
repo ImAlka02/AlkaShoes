@@ -112,7 +112,7 @@ namespace AlkaShoes.Controllers
                 PrecioCadaUno = prop.Precio
             };
 
-            ModelState.Clear();
+            //ModelState.Clear();
 
             if (ModelState.IsValid)
             {
