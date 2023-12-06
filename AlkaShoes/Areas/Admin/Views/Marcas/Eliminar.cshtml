@@ -1,0 +1,25 @@
+﻿@model AlkaShoes.Models.Entities.Marca
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<section class="eliminar">
+    <h1>Eliminar marca</h1>
+
+    <form method="post" action="~/Admin/Marcas/Eliminar"
+        class="form-eliminar">
+        <input type="hidden" asp-for="Id" />
+        <p>¿Está seguro de eliminar <span>@Model.NombreMarca</span> de la lista de marcas?</p>
+        <p class="error">La eliminación será permanente.</p>
+
+        <div class="botones">
+            <input type="submit" value="Aceptar" id="btnAgregar" />
+            <a href="~/Admin/Marcas/Index">
+                <input type="button" value="Cancelar" id="btnCancelar" />
+            </a>
+        </div>
+    </form>
+</section>
+
+

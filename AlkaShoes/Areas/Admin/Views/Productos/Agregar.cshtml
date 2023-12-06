@@ -1,0 +1,48 @@
+﻿@model AlkaShoes.Areas.Admin.Models.AdminAgregarProductoViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<section class="agregar-editar-section">
+    <h1>Agregar producto</h1>
+
+    <form method="post" action="~/Admin/Productos/Agregar" enctype="multipart/form-data"
+        class="form-agregar-editar">
+        <input type="text" placeholder="Nombre" required asp-for="Producto.Nombre" />
+        <input type="text" placeholder="Sku" required asp-for="Producto.Sku"/>
+        <input type="number" placeholder="Precio" required asp-for="Producto.Precio" />
+        <textarea placeholder="Escriba una descripción breve sobre el producto..." required asp-for="Producto.Descripcion"></textarea>
+        <select asp-items="@(new SelectList(Model.Marcas,"IdMarca","NombreMarca"))"
+        asp-for="Producto.IdMarca">
+            <option>Seleccionar marca</option>
+        </select>
+
+        <label>Imagen:</label>
+        <input type="file" id="fileUpload1" accept="image/png" asp-for="Archivo" />
+        <img id="imagePreview" src="~/img_tenis/no-image.png"/>
+
+        <p class="error">@Html.ValidationSummary(true)</p>
+        <div class="botones">
+            <input type="submit" value="Agregar" id="btnAgregar" />
+            <a href="~/Admin/Productos/Index">
+                <input type="button" value="Cancelar" id="btnCancelar" />
+            </a>
+        </div>
+    </form>
+</section>
+
+<script>
+    function mostrarImagen(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('imagePreview').src = e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    document.getElementById('fileUpload1').addEventListener('change', function () {
+        mostrarImagen(this);
+    });
+</script>

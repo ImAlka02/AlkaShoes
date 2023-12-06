@@ -23,5 +23,11 @@ namespace AlkaShoes.Repositories
                 .Where(x=> x.IdMarcaNavigation != null && x.IdMarcaNavigation.NombreMarca == Categoria)
                 .OrderBy(x => x.Nombre);
         }
+        public IEnumerable<Producto> ProductosXMarca(int marca)
+        {
+            return Context.Producto.Include(x => x.IdMarcaNavigation)
+                .Where(x => x.IdMarcaNavigation != null && x.IdMarcaNavigation.Id == marca)
+                .OrderBy(x => x.Nombre);
+        }
     }
 }

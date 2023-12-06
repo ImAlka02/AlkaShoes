@@ -1,60 +1,32 @@
-﻿
+﻿@model AlkaShoes.Areas.Admin.Models.AdminProductosViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-    ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <section class="productos">
     <h1>Productos</h1>
     <div>
-        <a class="agregar">
+        <a href="~/Admin/Productos/Agregar" class="agregar">
             Agregar producto
         </a>
-        <form class="seleccionar-marca">
-            <select>
+        <form class="seleccionar-marca" method="post" action="~/Admin/Productos/Index">
+            <select asp-items="@(new SelectList(Model.Marcas,"IdMarca","NombreMarca"))" onchange="this.form.submit()"
+            asp-for="IdMarcaSeleccionada">
                 <option>Todas las marcas</option>
             </select>
         </form>
     </div>
 
     <ul>
-        <li>
-            Jordan 1 Retro Low <span>(JSUASOD)</span>
-            <a><i class="fa-solid fa-trash"></i></a>
-            <a><i class="fa-solid fa-pen-to-square"></i></a>
-        </li>
-
-        <li>
-            Jordan 1 Retro Low <span>(JSUASOD)</span>
-            <a><i class="fa-solid fa-trash"></i></a>
-            <a><i class="fa-solid fa-pen-to-square"></i></a>
-        </li>
-        <li>
-            Jordan 1 Retro Low <span>(JSUASOD)</span>
-            <a><i class="fa-solid fa-trash"></i></a>
-            <a><i class="fa-solid fa-pen-to-square"></i></a>
-        </li>
-
-        <li>
-            Jordan 1 Retro Low <span>(JSUASOD)</span>
-            <a><i class="fa-solid fa-trash"></i></a>
-            <a><i class="fa-solid fa-pen-to-square"></i></a>
-        </li>
-        <li>
-            Jordan 1 Retro Low <span>(JSUASOD)</span>
-            <a><i class="fa-solid fa-trash"></i></a>
-            <a><i class="fa-solid fa-pen-to-square"></i></a>
-        </li>
-        <li>
-            Jordan 1 Retro Low <span>(JSUASOD)</span>
-            <a><i class="fa-solid fa-trash"></i></a>
-            <a><i class="fa-solid fa-pen-to-square"></i></a>
-        </li>
-        <li>
-            Jordan 1 Retro Low <span>(JSUASOD)</span>
-            <a><i class="fa-solid fa-trash"></i></a>
-            <a><i class="fa-solid fa-pen-to-square"></i></a>
-        </li>
+        @foreach (var p in Model.Productos)
+        {
+            <li>
+                @p.NombreProducto <span>(@p.Sku)</span>
+                <a href="~/Admin/Productos/Eliminar/@p.IdProducto" ><i class="fa-solid fa-trash" style="color:black;"></i></a>
+                <a href="~/Admin/Productos/Editar/@p.IdProducto"><i class="fa-solid fa-pen-to-square" style="color:black;"></i></a>
+            </li>
+        }
 
     </ul>
 

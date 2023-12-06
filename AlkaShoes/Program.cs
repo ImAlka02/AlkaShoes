@@ -13,6 +13,7 @@ builder.Services.AddTransient<Repo<User>>();
 builder.Services.AddTransient<RepoCarrito>();
 builder.Services.AddTransient<RepoProductos>();
 builder.Services.AddTransient<RepoTallas>();
+builder.Services.AddTransient<Repo<Talla>>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
 {
     x.AccessDeniedPath = "/Home/Denied";

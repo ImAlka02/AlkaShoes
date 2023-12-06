@@ -1,0 +1,28 @@
+﻿@model AlkaShoes.Areas.Admin.Models.AdminMarcasViewModel
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<section class="productos">
+    <h1>Marcas</h1>
+    <div>
+        <a class="agregar" href="~/Admin/Marcas/Agregar">
+            Agregar marca
+        </a>
+    </div>
+
+    <ul>
+
+       @foreach (var m in Model.Marcas)
+        {
+            <li>
+                @m.NombreMarca
+                <a href="~/Admin/Marcas/Eliminar/@m.IdMarca"><i class="fa-solid fa-trash" style="color:black;"></i></a>
+                <a href="~/Admin/Marcas/Editar/@m.IdMarca"><i class="fa-solid fa-pen-to-square" style="color:black;"></i></a>
+            </li>
+        }
+       
+    </ul>
+</section>
+
+
