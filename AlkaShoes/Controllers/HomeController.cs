@@ -82,8 +82,8 @@ namespace AlkaShoes.Controllers
         [HttpPost]
         public IActionResult Ver(VerProductoViewModel vm)
         {
-            var prop = repoProducto.GetById(vm.Id);
-            var cantidadTalla = repoTallas.GetTallaByIdProducto(vm.Id);
+            var prop = repoProducto.GetById(vm.Id); 
+            var cantidadTalla = repoTallas.GetTallaByIdProducto(vm.Id, vm.IdTalla);
 
             ModelState.Clear();
 
@@ -164,7 +164,15 @@ namespace AlkaShoes.Controllers
         public IActionResult Carrito(CarritoViewModel vm)
         {
             
+            var prop = repoCarrito.GetById(vm.IdSeleccion);
+            var par = repoProducto.GetById(prop.IdProducto);
+            var cantidadTalla = repoTallas.GetTallaByIdProducto(par.Id, prop.IdTallaNavigation.Id );
+            cantidadTalla.Cantidad = cantidadTalla.Cantidad + prop.Cantidad;
+            repoTallas.Update(cantidadTalla);
             repoCarrito.Delete(vm.IdSeleccion);
+            
+            //par. = prop.Cantidad + vm.Cantidad;
+            //repoTallas.Update(cantidadTalla);
 
             vm.ListaCompra = repoCarrito.GetAll().Where(x => x.IdUser == int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)))
             .Select(x => new Carrito()

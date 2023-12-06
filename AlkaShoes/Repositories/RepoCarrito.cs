@@ -11,7 +11,8 @@ namespace AlkaShoes.Repositories
         }
         public Carrito? GetById( int id)
         {
-            return Context.Carrito.Include(x=>x.IdProductoNavigation).First(x=>x.Id == id);
+            return Context.Carrito.Include(x=>x.IdProductoNavigation)
+                .Include(x=>x.IdTallaNavigation).First(x=>x.Id == id);
         }
         public override IEnumerable<Carrito> GetAll()
         {
