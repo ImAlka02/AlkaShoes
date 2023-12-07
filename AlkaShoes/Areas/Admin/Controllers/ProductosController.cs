@@ -2,6 +2,7 @@
 using AlkaShoes.Models.Entities;
 using AlkaShoes.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace AlkaShoes.Areas.Admin.Controllers
 {
@@ -77,7 +78,7 @@ namespace AlkaShoes.Areas.Admin.Controllers
             }
             if (vm.Producto.Nombre.Length>50)
             {
-                ModelState.AddModelError("", "El nombre del producto ha superado los caracteres permitidos.");
+                ModelState.AddModelError("", "El nombre del producto ha superado los 50 caracteres permitidos.");
             }
             
             if (RepoP.GetAll().Any(x=>x.Nombre.ToUpper() ==vm.Producto.Nombre.ToUpper()))
@@ -89,9 +90,9 @@ namespace AlkaShoes.Areas.Admin.Controllers
             {
                 ModelState.AddModelError("", "El SKU del producto es obligatorio.");
             }
-            if (vm.Producto.Sku.Length != 10)
+            if (vm.Producto.Sku.Length >= 10)
             {
-                ModelState.AddModelError("", "SKU del producto ha superado los caracteres permitidos.");
+                ModelState.AddModelError("", "SKU del producto ha superado los 10 caracteres permitidos.");
             }
             
             if (RepoP.GetAll().Any(x => x.Sku.ToUpper() == vm.Producto.Sku.ToUpper()))
@@ -135,7 +136,7 @@ namespace AlkaShoes.Areas.Admin.Controllers
 
                 if (vm.Archivo == null)
                 {
-                    System.IO.File.Copy("wwwroot/img_tenis/0.jpg", $"wwwroot/img_tenis/{vm.Producto.Id}.png");
+                    System.IO.File.Copy("wwwroot/img_tenis/0.png", $"wwwroot/img_tenis/{vm.Producto.Id}.png");
                 }
                 else
                 {
@@ -155,9 +156,122 @@ namespace AlkaShoes.Areas.Admin.Controllers
         }
 
 
-        public IActionResult Editar()
+        public IActionResult Editar(int id)
         {
-            return View();
+            AdminAgregarProductoViewModel vm = new();
+            var producto = RepoP.GetById(id);
+            if(producto == null)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                vm.Producto = producto;
+                vm.Marcas = RepoM.GetAll().Select(m => new MarcaModel
+                {
+                    IdMarca = m.Id,
+                    NombreMarca = m.NombreMarca
+                });
+            }
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult Editar(AdminAgregarProductoViewModel vm)
+        {
+            ModelState.Clear();
+
+            if (string.IsNullOrEmpty(vm.Producto.Nombre))
+            {
+                ModelState.AddModelError("", "El nombre del producto es obligatorio.");
+            }
+            if (vm.Producto.Nombre.Length > 50)
+            {
+                ModelState.AddModelError("", "El nombre del producto ha superado los 50 caracteres permitidos.");
+            }
+
+            if (RepoP.GetAll().Any(x => x.Nombre.ToUpper() == vm.Producto.Nombre.ToUpper() && x.Id!=vm.Producto.Id))
+            {
+                ModelState.AddModelError("", "Ya se ha registrado un producto con este nombre.");
+            }
+
+            if (string.IsNullOrEmpty(vm.Producto.Sku))
+            {
+                ModelState.AddModelError("", "El SKU del producto es obligatorio.");
+            }
+            if (vm.Producto.Sku.Length >= 10)
+            {
+                ModelState.AddModelError("", "SKU del producto ha superado los 10 caracteres permitidos.");
+            }
+
+            if (RepoP.GetAll().Any(x => x.Sku.ToUpper() == vm.Producto.Sku.ToUpper() && x.Id != vm.Producto.Id))
+            {
+                ModelState.AddModelError("", "Ya se ha registrado un producto con este SKU.");
+            }
+
+            if (vm.Producto.Precio <= 0)
+            {
+                ModelState.AddModelError("", "El precio del producto debe ser mayor a 0.");
+            }
+            if (string.IsNullOrEmpty(vm.Producto.Descripcion))
+            {
+                ModelState.AddModelError("", "La descripción del producto es obligatorio.");
+            }
+
+            if (vm.Producto.IdMarca == 0)
+            {
+                ModelState.AddModelError("", "Selecciona una marca.");
+            }
+
+            if (vm.Archivo != null)
+            {
+                //Validar tipo de archivo:  MIMETYPE
+                if (vm.Archivo.ContentType != "image/png")
+                {
+                    ModelState.AddModelError("", "Solo se permiten archivos png.");
+                }
+
+                if (vm.Archivo.Length > 500 * 1024)//500kb
+                {
+                    ModelState.AddModelError("", "Solo se permiten archivos no mayores a 500Kb");
+                }
+            }
+
+            if (ModelState.IsValid)
+            {
+                var productoBDD = RepoP.Get(vm.Producto.Id);
+                if (productoBDD == null)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    productoBDD.Nombre = vm.Producto.Nombre;
+                    productoBDD.Sku = vm.Producto.Sku;
+                    productoBDD.Precio = vm.Producto.Precio;
+                    productoBDD.Descripcion = vm.Producto.Descripcion;
+                    productoBDD.IdMarca = vm.Producto.IdMarca;
+
+                    RepoP.Update(productoBDD);
+
+                    if (vm.Archivo != null)
+                    {
+                        System.IO.FileStream fs = System.IO.File.Create($"wwwroot/img_tenis/{vm.Producto.Id}.png");
+                        vm.Archivo.CopyTo(fs);
+                        fs.Close();
+                    }
+                    return RedirectToAction("Index");
+                }
+            }
+
+            vm.Marcas = RepoM.GetAll().Select(m => new MarcaModel
+            {
+                IdMarca = m.Id,
+                NombreMarca = m.NombreMarca
+            });
+
+            return View(vm);
         }
 
         public IActionResult Eliminar(int id)
@@ -183,7 +297,7 @@ namespace AlkaShoes.Areas.Admin.Controllers
 
             RepoP.Delete(producto);
 
-            var ruta = $"wwwroot/img_tenis/{p.Id}.jpg";
+            var ruta = $"wwwroot/img_tenis/{p.Id}.png";
 
             if (System.IO.File.Exists(ruta))
             {

@@ -11,7 +11,7 @@
           class="form-agregar-editar">
           <input type="hidden" asp-for="Id" />
         <input type="text" placeholder="Nombre" required asp-for="NombreMarca" />
-        <p class="error">@Html.ValidationSummary(true)</p>
+        <p style="color:red;">@Html.ValidationSummary(true)</p>
         <div class="botones">
             <input type="submit" value="Aceptar" id="btnAgregar" />
             <a href="~/Admin/Marcas/Index">

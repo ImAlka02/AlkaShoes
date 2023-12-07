@@ -88,7 +88,7 @@ namespace AlkaShoes.Areas.Admin.Controllers
 
                 if (m.NombreMarca.Length > 45)
                 {
-                    ModelState.AddModelError("", "El nombre de la marca ha superado los caracteres permitidos.");
+                    ModelState.AddModelError("", "El nombre de la marca ha superado los 45 caracteres permitidos.");
                 }
 
                 if (ReposM.GetAll().Any(x => x.NombreMarca.ToUpper() == m.NombreMarca.ToUpper()))
