@@ -1,5 +1,4 @@
-﻿
-html, body {
+﻿html, body {
     height: 100%;
     width: 100%;
     font-family: 'Oswald', sans-serif;
@@ -17,16 +16,15 @@ main {
 .inicio-sesion {
     background-color: black;
     width: 40%;
-    height: 65%;
+    height:50%;
     margin: auto;
     display: flex;
     flex-direction: column;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .alka-shoes-lema {
-    height: 35%;
     text-align: center;
     align-content: center;
     flex-wrap: wrap;
@@ -39,6 +37,8 @@ main {
 
 .alka-shoes-lema h3 {
     height: 15%;
+    margin: 0; 
+    margin-bottom:10px;
     color: white;
     background-color: black;
 }
@@ -48,11 +48,10 @@ main {
     background-color: white;
     border-radius: 0 0 10px 10px;
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    justify-content: center;
     border: 1px solid white;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
 }
 
     .login h1 {
@@ -106,36 +105,6 @@ main {
         cursor: pointer;
         font-family: 'Oswald', sans-serif;
     }
-
-/*Registro de usuario*/
-
-.registro {
-    background-color: black;
-    width: 40%;
-    display: flex;
-    flex-direction: column;
-    margin: auto;
-    border-radius: 10px;
-    margin-top: 2%;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    text-align: center;
-}
-
-    .registro img {
-        width: 20%;
-        margin: auto;
-        /*   margin: 0 auto;*/
-    }
-
-.area-registro {
-    background-color: white;
-    height: 100%;
-    border-radius: 0 0 10px 10px;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
 
 @media (max-width: 1024px) {
     .registro, .inicio-sesion {

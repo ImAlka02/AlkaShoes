@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AlkaShoes.Controllers
 {
+    
     public class HomeController : Controller
     {
         private readonly RepoProductos repoProducto;
@@ -24,6 +26,7 @@ namespace AlkaShoes.Controllers
             this.userRepo = userRepo;
             this.repoCarrito = repoCarrito;
         }
+        [Authorize(Roles = "Admin, Cliente")]
         public IActionResult Inicio(string Id)
         {
             if (Id != null) 
@@ -57,6 +60,7 @@ namespace AlkaShoes.Controllers
                 return View(vm);
             }
         }
+        [Authorize(Roles = "Admin, Cliente")]
         public IActionResult Ver(string Id)
         {
             Id = Id.Replace("-", " ");
@@ -80,6 +84,7 @@ namespace AlkaShoes.Controllers
             return View(vm);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin, Cliente")]
         public IActionResult Ver(VerProductoViewModel vm)
         {
             var prop = repoProducto.GetById(vm.Id); 
@@ -138,6 +143,7 @@ namespace AlkaShoes.Controllers
 
             return View(vm);
         }
+        [Authorize(Roles = "Admin, Cliente")]
         public IActionResult Carrito()
         {
 
@@ -161,6 +167,7 @@ namespace AlkaShoes.Controllers
             return View(vm);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin, Cliente")]
         public IActionResult Carrito(CarritoViewModel vm)
         {
             
@@ -191,11 +198,13 @@ namespace AlkaShoes.Controllers
             
             return View(vm);
         }
-
+        [Authorize(Roles = "Admin, Cliente")]
         public IActionResult CompraRealizada()
         {
             return View();
         }
+
+        
         public IActionResult Index()
         {
             return View();
@@ -252,6 +261,7 @@ namespace AlkaShoes.Controllers
 
         public IActionResult Denied()
         {
+            HttpContext.SignOutAsync();
             return View();
         }
 
