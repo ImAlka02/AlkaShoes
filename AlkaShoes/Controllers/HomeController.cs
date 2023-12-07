@@ -191,6 +191,8 @@ namespace AlkaShoes.Controllers
             
             return View(vm);
         }
+
+        
         public IActionResult Index()
         {
             return View();
