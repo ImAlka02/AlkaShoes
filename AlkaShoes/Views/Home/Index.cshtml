@@ -1,9 +1,5 @@
 ﻿@model AlkaShoes.Models.ViewModels.LoginViewModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@{
-    Layout = null;
-}
-
 <!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
@@ -33,7 +29,6 @@
                     <input type="password" placeholder="Contraseña" asp-for="Contraseña"/>
                     <input type="submit" value="Iniciar sesión"/>
                 </form>
-                <a href="~/Home/Registro">Crear cuenta</a>
             </div>
         </section>
     </main>
