@@ -192,7 +192,10 @@ namespace AlkaShoes.Controllers
             return View(vm);
         }
 
-        
+        public IActionResult CompraRealizada()
+        {
+            return View();
+        }
         public IActionResult Index()
         {
             return View();
@@ -246,5 +249,12 @@ namespace AlkaShoes.Controllers
             HttpContext.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+
+        public IActionResult Denied()
+        {
+            return View();
+        }
+
+       
     }
 }

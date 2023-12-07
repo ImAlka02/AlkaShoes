@@ -752,6 +752,39 @@ section input[type=submit] {
     text-align: center;
 }
 
+/*////////////////////// compra realizada /////////////////////////////////////////*/
+
+.compra-realizada {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    .compra-realizada div {
+        margin-top: 5%;
+        width: 40%;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        text-align: center;
+        padding: 20px;
+    }
+
+        .compra-realizada div p {
+            font-size: x-large;
+        }
+
+.regresar-a {
+    padding: 0 20px 5px 20px;
+    text-decoration: none;
+    margin-top: 10px;
+    color: white;
+    font-size: x-large;
+    border-radius: 20px;
+    background-color: black;
+}
+
 /*/////////////////////////// media ///////////////////////////////////////*/
 
 
