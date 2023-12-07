@@ -81,28 +81,42 @@ namespace AlkaShoes.Controllers
         }
         [HttpPost]
         public IActionResult Ver(VerProductoViewModel vm)
-        {
-            var prop = repoProducto.GetById(vm.Id); 
-            var cantidadTalla = repoTallas.GetTallaByIdProducto(vm.Id, vm.IdTalla);
-
+        { 
             ModelState.Clear();
-
-            if (vm.IdTalla == 0)
+			var prop = repoProducto.GetById(vm.Id);
+			vm.Id = prop.Id;
+			vm.Sku = prop.Sku;
+			vm.Nombre = prop.Nombre;
+			vm.Descripcion = prop.Descripcion;
+			vm.FechaModificacion = new FileInfo($"wwwroot/img_tenis/{prop.Id}.jpg").LastWriteTime.ToString("ddMMyyyyHHmm");
+			vm.Marca = prop.IdMarcaNavigation.NombreMarca;
+			vm.Precio = prop.Precio;
+			vm.Tallas = repoTallas.GetAllXTenis(prop.Nombre).Select(x => new TallasModel()
+			{
+				Id = x.Id,
+				Talla = x.IdTallaNavigation.Talla1,
+				Cantidad = x.Cantidad
+			});
+			if (vm.IdTalla==0)
             {
-                ModelState.AddModelError(string.Empty, "Eliga una talla para continuar.");
+                ModelState.AddModelError("","Selecciona una talla por favor.");
+                return View(vm);
             }
+			if (vm.Cantidad == 0)
+			{
+				ModelState.AddModelError(string.Empty, "La cantidad no puede ser menor que 0.");
+			}
+			
+			var cantidadTalla = repoTallas.GetTallaByIdProducto(vm.Id, vm.IdTalla);
 
-            if (vm.Cantidad == 0 )
-            {
-                ModelState.AddModelError(string.Empty, "La cantidad no puede ser menor que 0.");
-            }
+			if (vm.Cantidad >= cantidadTalla?.Cantidad)
+			{
+				ModelState.AddModelError(string.Empty, "No tenemos la cantidad solicitada, elija otra por favor.");
+			}
 
-            if(vm.Cantidad >= cantidadTalla?.Cantidad)
-            {
-                ModelState.AddModelError(string.Empty, "No tenemos la cantidad solicitada, elija otra por favor.");
-            }
 
-            var Carrito = new Carrito()
+
+			var Carrito = new Carrito()
             {
                 IdProducto = vm.Id,
                 Cantidad = vm.Cantidad,
@@ -122,19 +136,7 @@ namespace AlkaShoes.Controllers
 
             }
 
-            vm.Id = prop.Id;
-            vm.Sku = prop.Sku;
-            vm.Nombre = prop.Nombre;
-            vm.Descripcion = prop.Descripcion;
-            vm.FechaModificacion = new FileInfo($"wwwroot/img_tenis/{prop.Id}.jpg").LastWriteTime.ToString("ddMMyyyyHHmm");
-            vm.Marca = prop.IdMarcaNavigation.NombreMarca;
-            vm.Precio = prop.Precio;
-            vm.Tallas = repoTallas.GetAllXTenis(prop.Nombre).Select(x => new TallasModel()
-            {
-                Id = x.Id,
-                Talla = x.IdTallaNavigation.Talla1,
-                Cantidad = x.Cantidad
-            });
+           
 
             return View(vm);
         }
@@ -160,12 +162,13 @@ namespace AlkaShoes.Controllers
             };
             return View(vm);
         }
+
         [HttpPost]
         public IActionResult Carrito(CarritoViewModel vm)
         {
-            
             var prop = repoCarrito.GetById(vm.IdSeleccion);
             var par = repoProducto.GetById(prop.IdProducto);
+
             var cantidadTalla = repoTallas.GetTallaByIdProducto(par.Id, prop.IdTallaNavigation.Id );
             cantidadTalla.Cantidad = cantidadTalla.Cantidad + prop.Cantidad;
             repoTallas.Update(cantidadTalla);
@@ -173,6 +176,7 @@ namespace AlkaShoes.Controllers
             
             //par. = prop.Cantidad + vm.Cantidad;
             //repoTallas.Update(cantidadTalla);
+
 
             vm.ListaCompra = repoCarrito.GetAll().Where(x => x.IdUser == int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)))
             .Select(x => new Carrito()
