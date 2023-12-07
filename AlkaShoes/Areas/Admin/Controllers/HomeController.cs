@@ -11,10 +11,5 @@ namespace AlkaShoes.Areas.Admin.Controllers
         {
             return View();
         }
-
-        public IActionResult Productos()
-        {
-            return View();
-        }
     }
 }

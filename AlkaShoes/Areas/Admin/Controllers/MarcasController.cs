@@ -1,12 +1,14 @@
 ﻿using AlkaShoes.Areas.Admin.Models;
 using AlkaShoes.Models.Entities;
 using AlkaShoes.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Core.Types;
 
 namespace AlkaShoes.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+	[Authorize(Roles = "Admin")]
+	[Area("Admin")]
     public class MarcasController : Controller
     {
         public Repo<Marca> ReposM { get; }

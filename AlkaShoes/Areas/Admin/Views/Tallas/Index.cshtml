@@ -1,0 +1,29 @@
+﻿@model AlkaShoes.Areas.Admin.Models.AdminProductosViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<section class="productos">
+    <h1>Aqui puedes agregar las tallas a tus Snkrs!!</h1>
+    <div>        
+        <form class="seleccionar-marca" method="post" action="~/Admin/Tallas/Index">
+            <select asp-items="@(new SelectList(Model.Marcas,"IdMarca","NombreMarca"))" onchange="this.form.submit()"
+                    asp-for="IdMarcaSeleccionada">
+                <option>Todas las marcas</option>
+            </select>
+        </form>
+    </div>
+
+    <ul>
+        @foreach (var p in Model.Productos)
+        {
+            <li>
+                @p.NombreProducto <span>(@p.Sku)</span>
+                <a href="~/Admin/Tallas/Editar/@p.IdProducto"><i class="fa-solid fa-pen-to-square" style="color:black;"></i></a>
+            </li>
+        }
+
+    </ul>
+
+</section>

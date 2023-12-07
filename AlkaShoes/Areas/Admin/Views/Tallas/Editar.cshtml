@@ -1,0 +1,38 @@
+﻿@model AlkaShoes.Areas.Admin.Models.AdminTallasViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<section class="agregar-editar-section">
+    <h1>Selecciona las tallas:</h1>
+
+    <form method="post" action="~/Admin/Tallas/Editar" class="form-agregar-editar">
+        <input type="hidden" value="@Model.IdProducto" asp-for="IdProducto" />
+        <select asp-for="tallaProducto.IdTalla"
+                asp-items="@(new SelectList(Model.TallasDisponibles,"Id","Nombre"))">
+            <option>-- Selecciona la talla --</option>
+        </select>
+        <input type="number" asp-for="tallaProducto.Cantidad"/>
+
+        <p id="error">@Html.ValidationSummary(true)</p>
+        <div class="botones">
+            <input type="submit" value="Agregar" id="btnAgregar" />
+            <a href="~/Admin/Productos/Index">
+                <input type="button" value="Cancelar" id="btnCancelar" />
+            </a>
+        </div>
+
+    </form>
+        <ul>
+            @if(Model.TallasDelProducto != null)
+            {
+                @foreach (var t in Model.TallasDelProducto)
+                {
+                    <li>
+                        @t.IdTallaNavigation.Talla1 <span>Cantidad: @t.Cantidad</span>
+                    </li>
+                }
+            }
+        </ul>
+</section>
+

@@ -701,6 +701,29 @@ section input[type=submit] {
             cursor: pointer;
         }
 
+
+.agregar-editar-section ul {
+    width: 80%;
+    position: initial;
+    padding: 0;
+}
+
+    .agregar-editar-section ul li {
+        list-style: none;
+        font-size: x-large;
+        padding: 2px;
+        cursor: pointer;
+        margin-bottom: 5px;
+    }
+
+        .agregar-editar-section ul li:hover {
+            background-color: lightgray;
+            border-radius: 5px;
+        }
+
+        .agregar-editar-section ul li span {
+            color: grey;
+        }
 /*//////////////////////Eliminar /////////////////////////////////////////*/
 .eliminar {
     height: 100%;

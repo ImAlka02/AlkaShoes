@@ -1,11 +1,13 @@
 ﻿using AlkaShoes.Areas.Admin.Models;
 using AlkaShoes.Models.Entities;
 using AlkaShoes.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace AlkaShoes.Areas.Admin.Controllers
 {
+	[Authorize(Roles = "Admin")]
 	[Area("Admin")]
 	public class ProductosController : Controller
     {
@@ -63,7 +65,7 @@ namespace AlkaShoes.Areas.Admin.Controllers
                 IdMarca = x.Id,
                 NombreMarca = x.NombreMarca
             });
-
+            
             return View(vm);
 		}
 
