@@ -2,6 +2,7 @@
 {
     public class ProductoViewModel
     {
+        public string Nombre { get; set; } = string.Empty;
         public IEnumerable<ProductoModel> Productos { get; set; } = null!;
     }
 

@@ -17,15 +17,21 @@
             <div class="tallas">
                 @if (Model.Tallas!= null)
                 {
-                    
-                
-                @foreach (var t in Model.Tallas)
-                {
-                    <label for="talla@(t.Id)" style="background: white;">
-                        @t.Talla
-                    </label>
-                    <input type="radio" id="talla@(t.Id)" hidden value="@t.Id" asp-for="IdTalla" />
+                    if (Model.Tallas.Count() != 0)
+                    {
+                        @foreach (var t in Model.Tallas)
+                        {
+                            <label for="talla@(t.Id)" style="background: white;">
+                                @t.Talla
+                            </label>
+                            <input type="radio" id="talla@(t.Id)" hidden value="@t.Id" asp-for="IdTalla" />
+                        }
                     }
+                    else
+                    {
+                        <p>No hay tallas disponibles.</p>
+                    }
+                    
                 }
                 else
                 {
@@ -41,11 +47,9 @@
                 <button type="button" class="masButton">+</button>
             </div>
             <div class="botonesClass">
-                <p id="error">@Html.ValidationSummary(true)</p>
                 <input type="submit" class="comprarButton" value="Agregar al carrito" />
-               
             </div>
-
+            <p id="error">@Html.ValidationSummary(true)</p>
         </form>
 
     </div>

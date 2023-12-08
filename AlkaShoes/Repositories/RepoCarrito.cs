@@ -1,5 +1,6 @@
 ﻿using AlkaShoes.Models.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace AlkaShoes.Repositories
 {
@@ -19,6 +20,14 @@ namespace AlkaShoes.Repositories
             return Context.Carrito.Include(x => x.IdTallaNavigation)
                 .Include(x => x.IdProductoNavigation)
                 .OrderBy(x => x.Fecha);
+        }
+        public void DeleteAll(List<Carrito> Lista)
+        {
+            if(Lista.Count()!=0)
+            {
+                Context.RemoveRange(Lista);
+                Context.SaveChanges();
+            }
         }
     }
 }

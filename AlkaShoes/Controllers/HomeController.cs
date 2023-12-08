@@ -35,6 +35,7 @@ namespace AlkaShoes.Controllers
 
                 ProductoViewModel vm = new ProductoViewModel()
                 {
+                    Nombre = Id,
                     Productos = repoProducto.ProductosXMarca(Id).Select(x => new ProductoModel()
                     {
                         Id = x.Id,
@@ -83,6 +84,7 @@ namespace AlkaShoes.Controllers
                         Cantidad = x.Cantidad
                     })
                 };
+                
                 return View(vm);
             }
             return RedirectToAction("Inicio");
@@ -91,13 +93,7 @@ namespace AlkaShoes.Controllers
         [Authorize(Roles = "Admin, Cliente")]
         public IActionResult Ver(VerProductoViewModel vm)
         {
-
-
-
-            var prop = repoProducto.GetById(vm.Id);
-
-
-            
+            var prop = repoProducto.GetById(vm.Id); 
             if (prop != null)
             {
                 vm.Id = prop.Id;
@@ -115,65 +111,65 @@ namespace AlkaShoes.Controllers
                 });
                 if(vm.Tallas != null)
                 {
-
-                
-                if (vm.IdTalla == 0)
-                {
-                    ModelState.AddModelError(string.Empty, "Elija una talla para continuar.");
-                    return View(vm);
-                }
-                var cantidadTalla = repoTallas.GetTallaByIdProducto(vm.Id, vm.IdTalla);
-
-                    if (cantidadTalla != null)
+                    if (vm.Tallas.Count() != 0)
                     {
-
-
-                        ModelState.Clear();
-
                         if (vm.IdTalla == 0)
                         {
                             ModelState.AddModelError(string.Empty, "Elija una talla para continuar.");
+                            return View(vm);
                         }
-
-                        if (vm.Cantidad == 0)
+                        var cantidadTalla = repoTallas.GetTallaByIdProducto(vm.Id, vm.IdTalla);
+                        if (cantidadTalla != null)
                         {
-                            ModelState.AddModelError(string.Empty, "La cantidad no puede ser menor que 0.");
-                        }
-
-                        if (vm.Cantidad > cantidadTalla?.Cantidad)
-                        {
-                            ModelState.AddModelError(string.Empty, "No tenemos la cantidad solicitada, elija otra por favor.");
-                        }
-
-                        var Carrito = new Carrito()
-                        {
-                            IdProducto = vm.Id,
-                            Cantidad = vm.Cantidad,
-                            IdUser = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "0"),
-                            IdTalla = vm.IdTalla,
-                            Fecha = DateTime.Now,
-                            PrecioCadaUno = prop.Precio
-                        };
-
-
-
-                        if (ModelState.IsValid)
-                        {
-                            repoCarrito.Insert(Carrito);
-                            cantidadTalla.Cantidad = cantidadTalla.Cantidad - vm.Cantidad;
-                            repoTallas.Update(cantidadTalla);
-                            vm.Tallas = repoTallas.GetAllXTenis(prop.Nombre).Where(x => x.Cantidad != 0).Select(x => new TallasModel()
+                            ModelState.Clear();
+                            if (vm.IdTalla == 0)
                             {
-                                Id = x.IdTallaNavigation.Id,
-                                Talla = x.IdTallaNavigation.Talla1,
-                                Cantidad = x.Cantidad
-                            });
+                                ModelState.AddModelError(string.Empty, "Elija una talla para continuar.");
+                                return View(vm);
+                            }
+
+                            if (vm.Cantidad == 0)
+                            {
+                                ModelState.AddModelError(string.Empty, "La cantidad no puede ser menor que 0.");
+                                return View(vm);
+                            }
+
+                            if (vm.Cantidad > cantidadTalla?.Cantidad)
+                            {
+                                ModelState.AddModelError(string.Empty, "No tenemos la cantidad solicitada, elija otra por favor.");
+                                return View(vm);
+                            }
+
+                            var Carrito = new Carrito()
+                            {
+                                IdProducto = vm.Id,
+                                Cantidad = vm.Cantidad,
+                                IdUser = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "0"),
+                                IdTalla = vm.IdTalla,
+                                Fecha = DateTime.Now,
+                                PrecioCadaUno = prop.Precio
+                            };
+
+                            if (ModelState.IsValid)
+                            {
+                                repoCarrito.Insert(Carrito);
+                                cantidadTalla.Cantidad = cantidadTalla.Cantidad - vm.Cantidad;
+                                repoTallas.Update(cantidadTalla);
+                                vm.Tallas = repoTallas.GetAllXTenis(prop.Nombre).Where(x => x.Cantidad != 0).Select(x => new TallasModel()
+                                {
+                                    Id = x.IdTallaNavigation.Id,
+                                    Talla = x.IdTallaNavigation.Talla1,
+                                    Cantidad = x.Cantidad
+                                });
+                            }
+                            return View(vm);
                         }
                     }
-                    ModelState.AddModelError(string.Empty, "Por el momento no tenemo tallas disponibles.");
                 }
+                ModelState.AddModelError(string.Empty, "Por el momento no tenemos tallas disponibles.");
                 return View(vm);
             }
+            ModelState.AddModelError(string.Empty, "A ocurrido un problema.");
             return View(vm);
         }
         [Authorize(Roles = "Admin, Cliente")]
@@ -205,42 +201,43 @@ namespace AlkaShoes.Controllers
         {
             
             var prop = repoCarrito.GetById(vm.IdSeleccion);
-            var par = repoProducto.GetById(prop.IdProducto);
-            var cantidadTalla = repoTallas.GetTallaByIdProducto(par.Id, prop.IdTallaNavigation.Id );
-            cantidadTalla.Cantidad = cantidadTalla.Cantidad + prop.Cantidad;
-            repoTallas.Update(cantidadTalla);
-            repoCarrito.Delete(vm.IdSeleccion);
-            
-            //par. = prop.Cantidad + vm.Cantidad;
-            //repoTallas.Update(cantidadTalla);
-
-            vm.ListaCompra = repoCarrito.GetAll().Where(x => x.IdUser == int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "0"))
-            .Select(x => new Carrito()
+            if(prop != null)
             {
-                IdProducto = x.IdProducto,
-                IdTalla = x.IdTalla,
-                IdUser = x.IdUser,
-                Cantidad = x.Cantidad,
-                Fecha = x.Fecha,
-                PrecioCadaUno = x.PrecioCadaUno,
-                IdProductoNavigation = x.IdProductoNavigation,
-                IdTallaNavigation = x.IdTallaNavigation,
-                IdUserNavigation = x.IdUserNavigation,
-                Id = x.Id
-            });
-            
+                var par = repoProducto.GetById(prop.IdProducto);
+                if(par != null)
+                {
+                    var cantidadTalla = repoTallas.GetTallaByIdProducto(par.Id, prop.IdTallaNavigation.Id);
+                    if(cantidadTalla != null)
+                    {
+                        cantidadTalla.Cantidad = cantidadTalla.Cantidad + prop.Cantidad;
+                        repoTallas.Update(cantidadTalla);
+                        repoCarrito.Delete(vm.IdSeleccion);
+                    }
+                }
+            }
+            vm.ListaCompra = repoCarrito.GetAll().Where(x => x.IdUser == int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "0"))
+                .Select(x => new Carrito()
+                {
+                    IdProducto = x.IdProducto,
+                    IdTalla = x.IdTalla,
+                    IdUser = x.IdUser,
+                    Cantidad = x.Cantidad,
+                    Fecha = x.Fecha,
+                    PrecioCadaUno = x.PrecioCadaUno,
+                    IdProductoNavigation = x.IdProductoNavigation,
+                    IdTallaNavigation = x.IdTallaNavigation,
+                    IdUserNavigation = x.IdUserNavigation,
+                    Id = x.Id
+                });
             return View(vm);
         }
         [Authorize(Roles = "Admin, Cliente")]
         public IActionResult CompraRealizada()
         {
-            var compras = repoCarrito.GetAll().Where(x => x.IdUser == int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "0"));
+            var compras = repoCarrito.GetAll().Where(x => x.IdUser == int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "0")).ToList();
             if(compras!= null)
-            {
-                foreach (var item in compras)
-                {
-                    repoCarrito.Delete(item);
-                }
+            {           
+               repoCarrito.DeleteAll(compras);
             }
             else
             {
@@ -306,7 +303,6 @@ namespace AlkaShoes.Controllers
 
         public IActionResult Denied()
         {
-            HttpContext.SignOutAsync();
             return View();
         }
 

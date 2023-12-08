@@ -65,11 +65,6 @@ nav {
         transition: background-color 0.5s, color 0.5s;
     }
 
-        nav a:hover {
-            background-color: white;
-            color: black;
-        }
-
 .menuButton {
     display: none;
 }
@@ -100,15 +95,10 @@ nav {
         justify-content: center;
     }
 
+
 .lastDiv {
     display: flex;
 }
-
-.menu1 a:hover {
-    background-color: inherit;
-    color: white;
-}
-
 
 .userBotton {
     position: relative;
@@ -559,7 +549,7 @@ section input[type=submit] {
     }
 
 .agregar {
-    padding: 0 0 5px 0;
+    padding: 5px 10px;
     margin: 0 0 10px 0;
     text-align: center;
     text-decoration: none;
@@ -584,9 +574,9 @@ section input[type=submit] {
     .seleccionar-marca select {
         width: 100%;
         float: right;
+        padding: 5px 0 5px 10px;
         font-size: large;
         padding: 0;
-        border-radius: 15px;
         font-family: 'Oswald', sans-serif;
         border: 0;
         background-color: lightgoldenrodyellow;
@@ -672,7 +662,7 @@ section input[type=submit] {
 
     .botones input[type="submit"] {
         margin: 0;
-        padding: 0;
+        padding: 5px;
         border-radius: 15px;
         font-size: medium;
         color: white;
@@ -690,7 +680,7 @@ section input[type=submit] {
 
         .botones a input[type="button"] {
             margin: 0;
-            padding: 0;
+            padding: 5px;
             border-radius: 15px;
             font-size: medium;
             color: white;

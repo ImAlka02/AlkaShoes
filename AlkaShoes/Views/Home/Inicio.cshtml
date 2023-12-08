@@ -1,7 +1,6 @@
 ﻿@model AlkaShoes.Models.ViewModels.ProductoViewModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-    ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -18,7 +17,14 @@
     <a href="javascript:" id="siguiente">&gt;</a>
 </div>
 <div class="container">
-    <h1>All Shoes</h1>
+    @if(Model.Nombre == "")
+    {
+        <h1>All Shoes</h1>
+    }
+    else
+    {
+        <h1>@Model.Nombre</h1>
+    }
     <div class="container-items">
         @foreach (var p in Model.Productos)
         {

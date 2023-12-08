@@ -92,7 +92,7 @@ namespace AlkaShoes.Areas.Admin.Controllers
             {
                 ModelState.AddModelError("", "El SKU del producto es obligatorio.");
             }
-            if (vm.Producto.Sku.Length >= 10)
+            if (vm.Producto.Sku.Length > 10)
             {
                 ModelState.AddModelError("", "SKU del producto ha superado los 10 caracteres permitidos.");
             }
@@ -202,7 +202,7 @@ namespace AlkaShoes.Areas.Admin.Controllers
             {
                 ModelState.AddModelError("", "El SKU del producto es obligatorio.");
             }
-            if (vm.Producto.Sku.Length >= 10)
+            if (vm.Producto.Sku.Length > 10)
             {
                 ModelState.AddModelError("", "SKU del producto ha superado los 10 caracteres permitidos.");
             }
