@@ -72,13 +72,17 @@ namespace AlkaShoes.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Editar(AdminTallasViewModel vm)
         {
-            var prop = RepoTallasProducto.GetTallaByIdProducto(vm.IdProducto, vm.tallaProducto.IdTalla);
             var tallas = RepoTallasProducto.GetTallasByIdProducto(vm.IdProducto);
             if (tallas.Any(x=>x.IdTalla ==vm.tallaProducto.IdTalla))
             {
-                prop.Cantidad = vm.tallaProducto.Cantidad;
+                var prop = RepoTallasProducto.GetTallaByIdProducto(vm.IdProducto, vm.tallaProducto.IdTalla);
+                if(prop != null) 
+                {
+                    prop.Cantidad = vm.tallaProducto.Cantidad;
+
+                    RepoTallasProducto.Update(prop);
+                }
                 
-                RepoTallasProducto.Update(prop);
             }
             else
             {

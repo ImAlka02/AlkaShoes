@@ -27,6 +27,7 @@
     <nav class="nav">
         <a class="menuButton"><i class="fa-solid fa-bars"></i></a>
       <div class="menuCategorias">
+            <a href="~/Home/Inicio">Inicio</a>
           @foreach (var m in repo.GetAll().OrderBy(x=>x.NombreMarca).Select(x=> x.NombreMarca))
             {
                 <a href="~/Home/Inicio/@m">@m</a>

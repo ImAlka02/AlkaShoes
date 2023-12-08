@@ -15,13 +15,23 @@
             <input type="hidden" name="Id" value="@Model.Id"/>
             <label>Tallas</label>
             <div class="tallas">
+                @if (Model.Tallas!= null)
+                {
+                    
+                
                 @foreach (var t in Model.Tallas)
                 {
                     <label for="talla@(t.Id)" style="background: white;">
                         @t.Talla
                     </label>
                     <input type="radio" id="talla@(t.Id)" hidden value="@t.Id" asp-for="IdTalla" />
+                    }
                 }
+                else
+                {
+                    <p>No hay tallas disponibles.</p>
+                }
+                
                 
             </div>
             <label>Cantidad</label>
