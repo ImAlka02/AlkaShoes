@@ -53,7 +53,7 @@ namespace AlkaShoes.Areas.Admin.Controllers
             return View(vm);
         }
 
-        public IActionResult Editar(int id) 
+        public IActionResult Editar(int id)
         {
             AdminTallasViewModel vm = new()
             {
@@ -64,32 +64,47 @@ namespace AlkaShoes.Areas.Admin.Controllers
                     Nombre = x.Talla1
                 }),
                 TallasDelProducto = RepoTallasProducto.GetTallasByIdProducto(id),
-                
+
             };
-            
+
             return View(vm);
         }
         [HttpPost]
         public IActionResult Editar(AdminTallasViewModel vm)
         {
             var tallas = RepoTallasProducto.GetTallasByIdProducto(vm.IdProducto);
-            if (tallas.Any(x=>x.IdTalla ==vm.tallaProducto.IdTalla))
-            {
-                var prop = RepoTallasProducto.GetTallaByIdProducto(vm.IdProducto, vm.tallaProducto.IdTalla);
-                if(prop != null) 
-                {
-                    prop.Cantidad = vm.tallaProducto.Cantidad;
 
-                    RepoTallasProducto.Update(prop);
-                }
-                
+            if(vm.Cantidad == 0)
+            {
+                ModelState.AddModelError("", "Asegúrese de que la cantidad de productos disponibles sea mayor a 0.");
+            }
+
+            if (vm.tallaProducto.IdTalla ==0)
+            {
+                ModelState.AddModelError("","Asegúrese de seleccionar una talla.");
             }
             else
             {
-                vm.tallaProducto.IdProducto = vm.IdProducto;
-                RepoTallasProducto.Insert(vm.tallaProducto);
+                if (tallas.Any(x => x.IdTalla == vm.tallaProducto.IdTalla))
+                {
+                    var prop = RepoTallasProducto.GetTallaByIdProducto(vm.IdProducto, vm.tallaProducto.IdTalla);
+                    if (prop != null)
+                    {
+                        prop.Cantidad = vm.tallaProducto.Cantidad;
+
+                        RepoTallasProducto.Update(prop);
+                    }
+
+                }
+                else
+                {
+                    vm.tallaProducto.IdProducto = vm.IdProducto;
+                    RepoTallasProducto.Insert(vm.tallaProducto);
+                }
             }
-            
+
+
+
             vm.TallasDisponibles = RepoT.GetAll().Select(x => new TallasModel()
             {
                 Id = x.Id,

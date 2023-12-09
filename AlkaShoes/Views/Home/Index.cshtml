@@ -29,6 +29,7 @@
                     <input type="password" placeholder="Contraseña" asp-for="Contraseña"/>
                     <input type="submit" value="Iniciar sesión"/>
                 </form>
+                <span id="error" class="error">@Html.ValidationSummary(true)</span>
             </div>
         </section>
     </main>

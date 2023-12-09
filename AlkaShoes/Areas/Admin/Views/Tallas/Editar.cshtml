@@ -14,10 +14,11 @@
         </select>
         <input type="number" asp-for="tallaProducto.Cantidad"/>
 
-        <p id="error">@Html.ValidationSummary(true)</p>
+        <span id="error" class="error">@Html.ValidationSummary(true)</span>
+
         <div class="botones">
             <input type="submit" value="Agregar" id="btnAgregar" />
-            <a href="~/Admin/Productos/Index">
+            <a href="~/Admin/Tallas/Index">
                 <input type="button" value="Cancelar" id="btnCancelar" />
             </a>
         </div>

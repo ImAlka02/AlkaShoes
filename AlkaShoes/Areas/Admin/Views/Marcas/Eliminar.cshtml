@@ -11,7 +11,7 @@
         class="form-eliminar">
         <input type="hidden" asp-for="Id" />
         <p>¿Está seguro de eliminar <span>@Model.NombreMarca</span> de la lista de marcas?</p>
-        <p class="error">La eliminación será permanente.</p>
+        <span id="error" class="error">La eliminación será permanente.</span>
 
         <div class="botones">
             <input type="submit" value="Aceptar" id="btnAgregar" />

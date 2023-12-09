@@ -6,7 +6,7 @@ namespace AlkaShoes.Areas.Admin.Models
     {
         public int IdProducto { get; set; }
         public int Cantidad { get; set; }
-       public Tallasproducto tallaProducto { get; set; } = null!;
+        public Tallasproducto tallaProducto { get; set; } = null!;
         public IEnumerable<TallasModel> TallasDisponibles { get; set; } = null!;
         public IEnumerable<Tallasproducto>? TallasDelProducto { get; set; } 
     }

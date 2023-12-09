@@ -22,7 +22,7 @@
         <input type="file" id="fileUpload1" accept="image/png" asp-for="Archivo" />
         <img id="imagePreview" src="~/img_tenis/no-image.png"/>
 
-        <p id="error">@Html.ValidationSummary(true)</p>
+        <span id="error" class="error">@Html.ValidationSummary(true)</span>
         <div class="botones">
             <input type="submit" value="Agregar" id="btnAgregar" />
             <a href="~/Admin/Productos/Index">

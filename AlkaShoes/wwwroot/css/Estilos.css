@@ -738,12 +738,6 @@ section input[type=submit] {
             color: gray;
         }
 
-#error {
-    color: red;
-    width: 100%;
-    text-align: center;
-}
-
 /*////////////////////// compra realizada /////////////////////////////////////////*/
 
 .compra-realizada {
@@ -779,9 +773,10 @@ section input[type=submit] {
 
 #error, .error {
     text-align: center;
+    width:100%;
     color: red;
-    font-size: larger;
-    margin: 5px 0;
+    margin: 5px;
+    font-size:medium;
 }
 
 .error, #error div ul {

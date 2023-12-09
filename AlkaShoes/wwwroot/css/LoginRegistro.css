@@ -106,6 +106,17 @@ main {
         font-family: 'Oswald', sans-serif;
     }
 
+#error, .error {
+    text-align: center;
+    color: red;
+    margin: 5px 0;
+    width: 100%;
+}
+
+    .error, #error div ul {
+        list-style: none;
+    }
+
 @media (max-width: 1024px) {
     .registro, .inicio-sesion {
         width: 85%;

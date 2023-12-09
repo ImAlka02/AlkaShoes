@@ -11,11 +11,11 @@
         class="form-eliminar" >
         <input type="hidden" asp-for="Id" />
         <p>¿Está seguro de eliminar <span>@Model.Nombre (@Model.Sku)</span> de la lista de productos?</p>
-        <p class="error">La eliminación será permanente.</p>
+        <span id="error" class="error">La eliminación será permanente.</span>
 
         <div class="botones">
-            <input type="submit" value="Eliminar" id="btnAgregar" />
-            <a href="#">
+            <input type="submit" value="Aceptar" id="btnAgregar" />
+            <a href="~/Admin/Productos/Index">
                 <input type="button" value="Cancelar" id="btnCancelar" />
             </a>
         </div>
