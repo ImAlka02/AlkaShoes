@@ -777,6 +777,17 @@ section input[type=submit] {
     background-color: black;
 }
 
+#error, .error {
+    text-align: center;
+    color: red;
+    font-size: larger;
+    margin: 5px 0;
+}
+
+.error, #error div ul {
+    list-style: none;
+}
+
 /*/////////////////////////// media ///////////////////////////////////////*/
 
 
