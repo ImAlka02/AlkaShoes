@@ -17,13 +17,15 @@ builder.Services.AddTransient<Repo<Talla>>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
 {
     x.AccessDeniedPath = "/Home/Denied";
-    x.LoginPath = "/Home/Login";
+    x.LoginPath = "/Home/Index";
     x.LogoutPath = "/Home/Logout";
     x.ExpireTimeSpan = TimeSpan.FromMinutes(30);
     x.Cookie.Name = "alkashoesCookie";
 });
 
 var app = builder.Build();
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseFileServer();
 app.MapControllerRoute(
             name : "areas",

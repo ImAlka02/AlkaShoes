@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AlkaShoes.Controllers
 {
-    
+
     public class HomeController : Controller
     {
         private readonly RepoProductos repoProducto;
@@ -26,7 +26,7 @@ namespace AlkaShoes.Controllers
             this.userRepo = userRepo;
             this.repoCarrito = repoCarrito;
         }
-        [Authorize(Roles = "Admin, Cliente")]
+        
         public IActionResult Inicio(string Id)
         {
             if (Id != null) 
@@ -61,7 +61,7 @@ namespace AlkaShoes.Controllers
                 return View(vm);
             }
         }
-        [Authorize(Roles = "Admin, Cliente")]
+       
         public IActionResult Ver(string Id)
         {
             Id = Id.Replace("-", " ");
@@ -90,7 +90,6 @@ namespace AlkaShoes.Controllers
             return RedirectToAction("Inicio");
         }
         [HttpPost]
-        [Authorize(Roles = "Admin, Cliente")]
         public IActionResult Ver(VerProductoViewModel vm)
         {
             var prop = repoProducto.GetById(vm.Id); 
@@ -144,7 +143,7 @@ namespace AlkaShoes.Controllers
                             {
                                 IdProducto = vm.Id,
                                 Cantidad = vm.Cantidad,
-                                IdUser = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "0"),
+                                IdUser = int.Parse(User.FindFirstValue("Id") ?? "0"),
                                 IdTalla = vm.IdTalla,
                                 Fecha = DateTime.Now,
                                 PrecioCadaUno = prop.Precio
@@ -172,13 +171,13 @@ namespace AlkaShoes.Controllers
             ModelState.AddModelError(string.Empty, "A ocurrido un problema.");
             return View(vm);
         }
-        [Authorize(Roles = "Admin, Cliente")]
+       
         public IActionResult Carrito()
         {
 
             CarritoViewModel vm = new CarritoViewModel()
             {
-                ListaCompra = repoCarrito.GetAll().Where(x => x.IdUser == int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)??"0"))
+                ListaCompra = repoCarrito.GetAll().Where(x => x.IdUser == int.Parse(User.FindFirstValue("Id")??"0"))
                 .Select(x => new Carrito()
                 {
                     IdProducto = x.IdProducto,
@@ -196,7 +195,6 @@ namespace AlkaShoes.Controllers
             return View(vm);
         }
         [HttpPost]
-        [Authorize(Roles = "Admin, Cliente")]
         public IActionResult Carrito(CarritoViewModel vm)
         {
             
@@ -215,7 +213,7 @@ namespace AlkaShoes.Controllers
                     }
                 }
             }
-            vm.ListaCompra = repoCarrito.GetAll().Where(x => x.IdUser == int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "0"))
+            vm.ListaCompra = repoCarrito.GetAll().Where(x => x.IdUser == int.Parse(User.FindFirstValue("Id") ?? "0"))
                 .Select(x => new Carrito()
                 {
                     IdProducto = x.IdProducto,
@@ -231,10 +229,10 @@ namespace AlkaShoes.Controllers
                 });
             return View(vm);
         }
-        [Authorize(Roles = "Admin, Cliente")]
+        
         public IActionResult CompraRealizada()
         {
-            var compras = repoCarrito.GetAll().Where(x => x.IdUser == int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "0")).ToList();
+            var compras = repoCarrito.GetAll().Where(x => x.IdUser == int.Parse(User.FindFirstValue("") ?? "0")).ToList();
             if(compras!= null)
             {           
                repoCarrito.DeleteAll(compras);
@@ -277,12 +275,12 @@ namespace AlkaShoes.Controllers
                 {
                     List<Claim> claims = new List<Claim>();
                     claims.Add(new Claim("Id", user.Id.ToString()));
-                    claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
                     claims.Add(new Claim(ClaimTypes.Name, user.Nombre));
                     claims.Add(new Claim(ClaimTypes.Role, user.Rol == 1 ? "Admin" : "Cliente"));
                     ClaimsIdentity identity = new(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                    HttpContext.SignInAsync(new ClaimsPrincipal(identity), new AuthenticationProperties
+                    HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal(identity), new AuthenticationProperties
                     {
                         IsPersistent = true
                     });
