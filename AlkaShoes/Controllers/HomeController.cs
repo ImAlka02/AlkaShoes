@@ -26,7 +26,7 @@ namespace AlkaShoes.Controllers
             this.userRepo = userRepo;
             this.repoCarrito = repoCarrito;
         }
-        
+        [Authorize(Roles = "Admin,Cliente")]
         public IActionResult Inicio(string Id)
         {
             if (Id != null) 
@@ -61,7 +61,7 @@ namespace AlkaShoes.Controllers
                 return View(vm);
             }
         }
-       
+        [Authorize(Roles = "Admin,Cliente")]
         public IActionResult Ver(string Id)
         {
             Id = Id.Replace("-", " ");
@@ -90,6 +90,7 @@ namespace AlkaShoes.Controllers
             return RedirectToAction("Inicio");
         }
         [HttpPost]
+        [Authorize(Roles = "Admin,Cliente")]
         public IActionResult Ver(VerProductoViewModel vm)
         {
             var prop = repoProducto.GetById(vm.Id); 
@@ -171,7 +172,7 @@ namespace AlkaShoes.Controllers
             ModelState.AddModelError(string.Empty, "A ocurrido un problema.");
             return View(vm);
         }
-       
+        [Authorize(Roles = "Admin,Cliente")]
         public IActionResult Carrito()
         {
 
@@ -194,7 +195,9 @@ namespace AlkaShoes.Controllers
             };
             return View(vm);
         }
+
         [HttpPost]
+        [Authorize(Roles = "Admin,Cliente")]
         public IActionResult Carrito(CarritoViewModel vm)
         {
             
@@ -229,10 +232,10 @@ namespace AlkaShoes.Controllers
                 });
             return View(vm);
         }
-        
+        [Authorize(Roles = "Admin,Cliente")]
         public IActionResult CompraRealizada()
         {
-            var compras = repoCarrito.GetAll().Where(x => x.IdUser == int.Parse(User.FindFirstValue("") ?? "0")).ToList();
+            var compras = repoCarrito.GetAll().Where(x => x.IdUser == int.Parse(User.FindFirstValue("Id") ?? "0")).ToList();
             if(compras!= null)
             {           
                repoCarrito.DeleteAll(compras);

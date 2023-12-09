@@ -18,12 +18,12 @@ namespace AlkaShoes.Repositories
         }
         public IEnumerable<Tallasproducto> GetTallasByIdProducto(int id)
         {
-            return Context.Tallasproducto.Include(x => x.IdTallaNavigation).Where(x=>x.IdProducto == id);
+            return Context.Tallasproducto.Include(x => x.IdTallaNavigation).Where(x=>x.IdProducto == id).OrderBy(x=> x.IdTallaNavigation.Talla1);
         }
         public IEnumerable<Tallasproducto> GetAllXTenis(string Nombre)
         {
             return Context.Tallasproducto.Include(x=>x.IdTallaNavigation)
-                .Where(x=> x.IdProductoNavigation.Nombre ==  Nombre);
+                .Where(x=> x.IdProductoNavigation.Nombre ==  Nombre).OrderBy(x=>x.IdTallaNavigation.Talla1);
         }
     }
 }

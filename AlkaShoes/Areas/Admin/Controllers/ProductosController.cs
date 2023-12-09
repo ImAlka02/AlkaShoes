@@ -72,8 +72,31 @@ namespace AlkaShoes.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Agregar(AdminAgregarProductoViewModel vm)
         {
+            vm.Marcas = RepoM.GetAll().Select(x => new MarcaModel
+            {
+                IdMarca = x.Id,
+                NombreMarca = x.NombreMarca
+            });
             ModelState.Clear();
-            //Validaciones      
+            //Validaciones
+            if(vm == null)
+            {
+                ModelState.AddModelError("", "Ingrese datos validos.");
+                return View(vm);
+            }
+
+            if(vm.Producto.Nombre == null)
+            {
+                ModelState.AddModelError("", "El nombre no puede estar vacio.");
+                return View(vm);
+            }
+            if (vm.Producto.Sku == null)
+            {
+                ModelState.AddModelError("", "El SKU no puede estar vacio.");
+                return View(vm);
+            }
+       
+
             if (string.IsNullOrEmpty(vm.Producto.Nombre))
             {
                 ModelState.AddModelError("","El nombre del producto es obligatorio.");

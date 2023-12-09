@@ -37,28 +37,41 @@ namespace AlkaShoes.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Agregar(Marca m)
         {
-
-            if (string.IsNullOrEmpty(m.NombreMarca))
+            if (m != null)
             {
-                ModelState.AddModelError("", "El nombre de la marca es obligatoria.");
-            }
+                if (m.NombreMarca != null)
+                {
+                    if (string.IsNullOrEmpty(m.NombreMarca))
+                    {
+                        ModelState.AddModelError("", "El nombre de la marca es obligatoria.");
+                    }
 
-            if (m.NombreMarca.Length > 45)
+                    if (m.NombreMarca.Length > 45)
+                    {
+                        ModelState.AddModelError("", "El nombre de la marca ha superado los caracteres permitidos.");
+                    }
+
+                    if (ReposM.GetAll().Any(x => x.NombreMarca == m.NombreMarca))
+                    {
+                        ModelState.AddModelError("", "Esta marca ya ha sido registrada.");
+                    }
+
+                    if (ModelState.IsValid)
+                    {
+                        ReposM.Insert(m);
+                        return RedirectToAction("Index");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Ingrese el nombre de la marca.");
+
+                }
+            }
+            else
             {
-                ModelState.AddModelError("", "El nombre de la marca ha superado los caracteres permitidos.");
+                ModelState.AddModelError("", "Ingrese el nombre de la marca.");
             }
-
-            if (ReposM.GetAll().Any(x => x.NombreMarca == m.NombreMarca))
-            {
-                ModelState.AddModelError("", "Esta marca ya ha sido registrada.");
-            }
-
-            if (ModelState.IsValid)
-            {
-                ReposM.Insert(m);
-                return RedirectToAction("Index");
-            }
-
             return View(m);
         }
 

@@ -73,15 +73,23 @@ namespace AlkaShoes.Areas.Admin.Controllers
         public IActionResult Editar(AdminTallasViewModel vm)
         {
             var tallas = RepoTallasProducto.GetTallasByIdProducto(vm.IdProducto);
+            vm.TallasDisponibles = RepoT.GetAll().Select(x => new TallasModel()
+            {
+                Id = x.Id,
+                Nombre = x.Talla1
+            });
+            vm.TallasDelProducto = tallas;
 
-            if(vm.Cantidad == 0)
+            if (vm.tallaProducto.Cantidad == 0)
             {
                 ModelState.AddModelError("", "Asegúrese de que la cantidad de productos disponibles sea mayor a 0.");
+                return View(vm);
             }
-
             if (vm.tallaProducto.IdTalla ==0)
             {
                 ModelState.AddModelError("","Asegúrese de seleccionar una talla.");
+                return View(vm);
+
             }
             else
             {
