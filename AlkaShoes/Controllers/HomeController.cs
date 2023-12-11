@@ -282,11 +282,13 @@ namespace AlkaShoes.Controllers
                     claims.Add(new Claim(ClaimTypes.Role, user.Rol == 1 ? "Admin" : "Cliente"));
                     ClaimsIdentity identity = new(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                    HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                        new ClaimsPrincipal(identity), new AuthenticationProperties
+                    //CookieAuthenticationDefaults.AuthenticationScheme,
+
+                    HttpContext.SignInAsync(new ClaimsPrincipal(identity), new AuthenticationProperties
                     {
                         IsPersistent = true
                     });
+
                     if(user.Rol == 1)
                     {
                         return RedirectToAction("Index", "Home", new { area = "Admin" });
@@ -304,9 +306,8 @@ namespace AlkaShoes.Controllers
 
         public IActionResult Denied()
         {
+            HttpContext.SignOutAsync();
             return View();
         }
-
-       
     }
 }
