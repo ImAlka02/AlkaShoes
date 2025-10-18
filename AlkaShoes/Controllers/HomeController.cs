@@ -26,7 +26,7 @@ namespace AlkaShoes.Controllers
             this.userRepo = userRepo;
             this.repoCarrito = repoCarrito;
         }
-        [Authorize(Roles = "Admin,Cliente")]
+        
         public IActionResult Inicio(string Id)
         {
             if (Id != null) 
@@ -61,7 +61,7 @@ namespace AlkaShoes.Controllers
                 return View(vm);
             }
         }
-        [Authorize(Roles = "Admin,Cliente")]
+       
         public IActionResult Ver(string Id)
         {
             Id = Id.Replace("-", " ");
