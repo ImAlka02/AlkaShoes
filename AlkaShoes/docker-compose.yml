@@ -1,0 +1,31 @@
+﻿version: "3.9"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: alkashoes-web
+    ports:
+      - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=server=db;port=3306;database=alkadb;user=${MARIADB_USER};password=${MARIADB_PASSWORD}
+    depends_on:
+      - db
+    restart: always
+    volumes:
+      - ./wwwroot:/app/wwwroot  # Para conservar imágenes subidas (opcional)
+
+  db:
+    image: mariadb:11.3
+    container_name: alkashoes-db
+    env_file: .env
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+
+volumes:
+  db_data:

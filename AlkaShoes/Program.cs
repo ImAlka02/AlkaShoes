@@ -5,8 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddMvc();
-builder.Services.AddDbContext<AlkashoesContext>(x=>x.UseMySql("user=websitos_AlkaShoes;password=3gy71j8?G;server=websitos256.com;database=websitos_AlkaShoes", 
-    Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.34-mysql")));
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<AlkashoesContext>(x=>x.UseMySql(connectionString,
+    ServerVersion.AutoDetect(connectionString)));
 
 builder.Services.AddTransient<Repo<Marca>>();
 builder.Services.AddTransient<Repo<User>>();

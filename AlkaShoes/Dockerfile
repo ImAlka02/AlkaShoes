@@ -1,17 +1,19 @@
+# Etapa 1: Build
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-WORKDIR /app
-COPY . ./
+WORKDIR /src
 
-# Restore dependencies
+COPY *.csproj .
 RUN dotnet restore
-# Build the application
-RUN dotnet publish -c Release -o out
 
-FROM mcr.microsoft.com/dotnet/aspnet:7.0
+COPY . .
+RUN dotnet publish -c Release -o /app/publish
+
+# Etapa 2: Runtime
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
 WORKDIR /app
-COPY --from=build /app/out .
-# Expose the port the app runs on
+COPY --from=build /app/publish .
 EXPOSE 80
 ENTRYPOINT ["dotnet", "AlkaShoes.dll"]
+
 
 
